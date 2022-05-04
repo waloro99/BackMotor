@@ -71,9 +71,10 @@ def getRecomendation(name):
   # Validar que exista el archivo
   for user in users:
     if user['name'] == name:
+      if (len(user['rates']) == 0): return { 'data': getDefaultTop10() }, 200;
       rec = recomend(user['rates']);
       return { 'data': getTop10Unrated(rec, user['rates']) }, 200;
-  return { 'data': getDefaultTop10() }, 404;
+  return { 'data': getDefaultTop10() }, 200;
 
 
 

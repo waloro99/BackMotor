@@ -290,4 +290,6 @@ def recomend(review):
 
 
 def getDefaultTop10():
+    df = pd.Cov = pd.read_csv("./data/uploaded_file.csv", header=None)
+    df.columns = ["ID", "movie_title", "color", "plot_keywords", "genres", "director_name", "num_critic_for_reviews" , "actor_1_name", "actor_2_name", "imdb_score", "title_year"]
     return df[['ID', 'imdb_score']].sort_values(by='imdb_score', ascending=False).head(10)["ID"].to_list()
