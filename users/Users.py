@@ -1,5 +1,6 @@
 from pyexpat import model
 from flask import Flask, request, Blueprint
+from motor.motor import recomend, getDefaultTop10
 
 users = [];
 
@@ -67,8 +68,19 @@ def updateReview(name):
 
 @usersModule.route('/users/getRecomendation/<name>', methods=['GET'])
 def getRecomendation(name):
+  # Validar que exista el archivo
   for user in users:
     if user['name'] == name:
-      # recomendations = user['model'].getRecomendation();
-      return { 'data': "Waifus :)" }, 200;
-  return { 'data': 'User not found' }, 404;
+      rec = recomend(user['rates']);
+      return { 'data': getTop10Unrated(rec, user['rates']) }, 200;
+  return { 'data': getDefaultTop10() }, 404;
+
+
+
+def getTop10Unrated(recomendations, reviews):
+  top10 = [];
+  for recomendation in recomendations:
+    if int(recomendation[0]) not in list(map(lambda x: x['movie'], reviews)):
+      top10.append(int(recomendation[0]))
+    if len(top10) == 10: return top10
+  return top10

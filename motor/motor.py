@@ -1,9 +1,9 @@
 import pandas as pd
 import numpy as np
 
-def main(review,path): 
-    #obtener el data frame de la informacion del archivo csv
-    df = pd.Cov = pd.read_csv(path, header=None)
+def recomend(review): 
+     #obtener el data frame de la informacion del archivo csv
+    df = pd.Cov = pd.read_csv("./data/uploaded_file.csv", header=None)
     df.columns = ["ID", "movie_title", "color", "plot_keywords", "genres", "director_name", "num_critic_for_reviews" , "actor_1_name", "actor_2_name", "imdb_score", "title_year"]
     max_review = df["num_critic_for_reviews"].max()
     df["popularity"] = ((df["num_critic_for_reviews"]/max_review)) * (df["imdb_score"])
@@ -239,7 +239,7 @@ def main(review,path):
             
         top_peliculas = []
         import operator
-        top_peliculas = sorted(recomendarpeli.items(), key=operator.itemgetter(1))
+        top_peliculas = sorted(recomendarpeli.items(), key=operator.itemgetter(1), reverse=True)
         return top_peliculas
 
     #--------------------- Hacer un ciclo para ir obteniendo 1 por 1 las peliculas y su prob para agregarla a todos lo campos y luego a la tabla final
@@ -289,3 +289,5 @@ def main(review,path):
     return peliculas_final
 
 
+def getDefaultTop10():
+    return df[['ID', 'imdb_score']].sort_values(by='imdb_score', ascending=False).head(10)["ID"].to_list()

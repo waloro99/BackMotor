@@ -1,6 +1,5 @@
 import os
-from flask import Flask, flash, request, redirect, url_for
-from werkzeug.utils import secure_filename
+from flask import Flask, flash, request, redirect
 from users.Users import usersModule
 # from files.uploadfile import fileModule
 
@@ -26,7 +25,8 @@ def upload_file():
       flash('No selected file')
       return redirect(request.url)
     if file:
-      filename = secure_filename(file.filename)
+      # filename = secure_filename(file.filename)
+      filename = "uploaded_file.csv"
       file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
       return { 'data': 'File uploaded succesfully' }, 200
       # return redirect(url_for('download_file', name=filename))
